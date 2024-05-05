@@ -1,0 +1,112 @@
+-- Create the GUI
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "mm2"
+ScreenGui.Parent = game:GetService("CoreGui")
+
+local Frame = Instance.new("Frame")
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Frame.Position = UDim2.new(0.5, -75, -1, -100) -- Start position above the screen
+Frame.Size = UDim2.new(0, 150, 0, 100)
+
+-- Define the final position of the GUI frame
+local finalPosition = UDim2.new(0.5, -75, 0.5, -50)
+
+-- Animation duration (in seconds)
+local animationDuration = 0.5
+
+-- Create TweenService
+local TweenService = game:GetService("TweenService")
+
+-- Define the tween information
+local tweenInfo = TweenInfo.new(animationDuration, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+
+-- Create the tween
+local tween = TweenService:Create(Frame, tweenInfo, {Position = finalPosition})
+
+-- Function to start the animation
+local function startAnimation()
+    tween:Play()
+end
+
+-- Start the animation when the GUI is executed
+startAnimation()
+
+local R3THButton = Instance.new("TextButton")
+R3THButton.Parent = Frame
+R3THButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+R3THButton.Position = UDim2.new(0.5, -60, 0.5, -25)
+R3THButton.Size = UDim2.new(0, 120, 0, 25)
+R3THButton.Font = Enum.Font.SourceSans
+R3THButton.Text = "R3TH PRIV"
+R3THButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+R3THButton.TextSize = 14
+
+-- Function to execute R3TH PRIV script
+local function executeR3THScript()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/R3TH-PRIV/R3THPRIV/main/loader.lua'))()
+end
+
+-- Connect R3THButton to executeR3THScript function
+R3THButton.MouseButton1Click:Connect(executeR3THScript)
+
+local InfiniteJumpButton = Instance.new("TextButton")
+InfiniteJumpButton.Parent = Frame
+InfiniteJumpButton.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
+InfiniteJumpButton.Position = UDim2.new(0.5, -60, 0.5, 5)
+InfiniteJumpButton.Size = UDim2.new(0, 120, 0, 25)
+InfiniteJumpButton.Font = Enum.Font.SourceSans
+InfiniteJumpButton.Text = "Infinite Jump"
+InfiniteJumpButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+InfiniteJumpButton.TextSize = 14
+
+-- Variable to track Infinite Jump state
+local InfiniteJumpEnabled = true
+
+-- Function to toggle Infinite Jump
+local function toggleInfiniteJump()
+    InfiniteJumpEnabled = not InfiniteJumpEnabled
+end
+
+-- Function to execute Infinite Jump
+game:GetService("UserInputService").JumpRequest:Connect(function()
+    if InfiniteJumpEnabled then
+        game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+    end
+end)
+
+-- Connect InfiniteJumpButton to toggleInfiniteJump function
+InfiniteJumpButton.MouseButton1Click:Connect(toggleInfiniteJump)
+
+local CloseButton = Instance.new("TextButton")
+CloseButton.Parent = Frame
+CloseButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+CloseButton.Position = UDim2.new(0.5, -60, 0.5, 35)
+CloseButton.Size = UDim2.new(0, 120, 0, 25)
+CloseButton.Font = Enum.Font.SourceSans
+CloseButton.Text = "Close"
+CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseButton.TextSize = 14
+
+-- Notification Label
+local NotificationLabel = Instance.new("TextLabel")
+NotificationLabel.Parent = Frame
+NotificationLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+NotificationLabel.Position = UDim2.new(0, 0, 1, 5)
+NotificationLabel.Size = UDim2.new(1, 0, 0, 20)
+NotificationLabel.Font = Enum.Font.SourceSans
+NotificationLabel.Text = "GUI Closed"
+NotificationLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+NotificationLabel.TextSize = 14
+NotificationLabel.Visible = false
+
+-- Function to destroy the entire GUI and show notification
+local function destroyGUI()
+    NotificationLabel.Visible = true
+    wait(15) -- Display notification for 15 seconds
+    NotificationLabel.Visible = false
+    ScreenGui:Destroy()
+end
+
+-- Connect CloseButton to destroyGUI function
+CloseButton.MouseButton1Click:Connect(destroyGUI)
